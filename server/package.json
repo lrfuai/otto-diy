@@ -1,0 +1,21 @@
+{
+  "name": "otto-diy-server",
+  "version": "1.0.0",
+  "description": "An Otto DIY Server to serial Comunication",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Otto",
+    "OttoDIY",
+    "server"
+  ],
+  "author": "Alejandro Cena",
+  "license": "ISC",
+  "dependencies": {
+    "nconf": "^0.10.0",
+    "restify": "^7.2.2",
+    "serialport": "^7.0.2"
+  }
+}

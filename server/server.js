@@ -1,6 +1,5 @@
 const restify = require('restify');
 const SerialPort = require('serialport');
-const config = require('./config');
 
 
 const otto = new SerialPort("COM1",{

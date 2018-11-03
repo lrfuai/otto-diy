@@ -1,8 +1,7 @@
 const restify = require('restify');
 const SerialPort = require('serialport');
 
-
-const otto = new SerialPort("COM1",{
+const otto = new SerialPort("COM3",{
     baudRate: 57600
 });
 
@@ -10,6 +9,10 @@ const otto = new SerialPort("COM1",{
 otto.on('error', function(err) {
     throw err.message
 });
+
+const parser = new SerialPort.parsers.Readline();
+otto.pipe(parser);
+parser.on('data', console.info);
 
 const server = restify.createServer({
     name: 'Otto DIY Server',
@@ -24,20 +27,17 @@ server.get('/ping', function (req, res, next) {
     otto.write('ping', function(err) {
         if (err) { return console.log('Error on write: ', err.message);}
         console.log('message written, listening...');
-        const Readline = SerialPort.parsers.Readline;
-        const parser = new Readline();
+        const parser = new SerialPort.parsers.Readline();
         otto.pipe(parser);
         parser.on('data', (message) => {
-            if(message === 'pong') {
-                console.log(message);
+            if(message.indexOf('pong') !== -1) {
                 res.send(200,message);
             } else {
-                console.error(message);
                 res.send(500,message);
             }
+            return next();
         });
     });
-    return next();
 });
 
 server.post('/do', function (req, res, next) {
